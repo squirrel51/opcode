@@ -77,7 +77,7 @@ class AnalyticsService {
         autocapture: this.config.autocapture,
         disable_session_recording: this.config.disable_session_recording,
         opt_out_capturing_by_default: this.config.opt_out_capturing_by_default,
-        loaded: (ph) => {
+        loaded: (ph: any) => {
           // Set user properties
           ph.identify(settings.userId, {
             anonymous: true,

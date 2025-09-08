@@ -1,6 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
+import i18n from "./i18n";
+import { I18nextProvider } from "react-i18next";
 import { ErrorBoundary } from "./components/ErrorBoundary";
 import { AnalyticsErrorBoundary } from "./components/AnalyticsErrorBoundary";
 import { analytics, resourceMonitor } from "./lib/analytics";
@@ -44,20 +46,22 @@ resourceMonitor.startMonitoring(120000);
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
-    <PostHogProvider
-      apiKey={import.meta.env.VITE_PUBLIC_POSTHOG_KEY}
-      options={{
-        api_host: import.meta.env.VITE_PUBLIC_POSTHOG_HOST,
-        defaults: '2025-05-24',
-        capture_exceptions: true,
-        debug: import.meta.env.MODE === "development",
-      }}
-    >
-      <ErrorBoundary>
-        <AnalyticsErrorBoundary>
-          <App />
-        </AnalyticsErrorBoundary>
-      </ErrorBoundary>
-    </PostHogProvider>
+    <I18nextProvider i18n={i18n}>
+      <PostHogProvider
+        apiKey={import.meta.env.VITE_PUBLIC_POSTHOG_KEY}
+        options={{
+          api_host: import.meta.env.VITE_PUBLIC_POSTHOG_HOST,
+          defaults: '2025-05-24',
+          capture_exceptions: true,
+          debug: import.meta.env.MODE === "development",
+        }}
+      >
+        <ErrorBoundary>
+          <AnalyticsErrorBoundary>
+            <App />
+          </AnalyticsErrorBoundary>
+        </ErrorBoundary>
+      </PostHogProvider>
+    </I18nextProvider>
   </React.StrictMode>,
 );

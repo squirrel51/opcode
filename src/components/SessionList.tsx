@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Clock, MessageSquare } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { Card } from "@/components/ui/card";
 import { Pagination } from "@/components/ui/pagination";
 import { ClaudeMemoriesDropdown } from "@/components/ClaudeMemoriesDropdown";
@@ -56,6 +57,7 @@ export const SessionList: React.FC<SessionListProps> = ({
   onEditClaudeFile,
   className,
 }) => {
+  const { t, i18n } = useTranslation();
   const [currentPage, setCurrentPage] = useState(1);
   
   // Calculate pagination
@@ -122,13 +124,13 @@ export const SessionList: React.FC<SessionListProps> = ({
                         <Clock className="h-4 w-4 text-primary shrink-0 mt-0.5" />
                         <div className="flex-1 min-w-0">
                           <p className="text-body-small font-medium">
-                            Session on {session.message_timestamp 
-                              ? new Date(session.message_timestamp).toLocaleDateString('en-US', { 
+                            {t('sessionList.sessionOn')} {session.message_timestamp 
+                              ? new Date(session.message_timestamp).toLocaleDateString(i18n.language, { 
                                   month: 'short', 
                                   day: 'numeric',
                                   year: 'numeric'
                                 })
-                              : new Date(session.created_at * 1000).toLocaleDateString('en-US', { 
+                              : new Date(session.created_at * 1000).toLocaleDateString(i18n.language, { 
                                   month: 'short', 
                                   day: 'numeric',
                                   year: 'numeric'
@@ -139,7 +141,7 @@ export const SessionList: React.FC<SessionListProps> = ({
                       </div>
                       {session.todo_data && (
                         <span className="inline-flex items-center px-1.5 py-0.5 rounded text-caption font-medium bg-primary/10 text-primary">
-                          Todo
+                          {t('sessionList.todo')}
                         </span>
                       )}
                     </div>
@@ -151,7 +153,7 @@ export const SessionList: React.FC<SessionListProps> = ({
                       </p>
                     ) : (
                       <p className="text-caption text-muted-foreground/60 italic mb-2">
-                        No messages yet
+                        {t('sessionList.noMessagesYet')}
                       </p>
                     )}
                   </div>
@@ -180,4 +182,4 @@ export const SessionList: React.FC<SessionListProps> = ({
       </div>
     </TooltipProvider>
   );
-}; 
+};

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from "react-i18next";
 import { motion, AnimatePresence } from 'framer-motion';
 import { Bot, Plus, Loader2, Play, Clock, CheckCircle, XCircle, Trash2, Import, ChevronDown, FileJson, Globe, Download } from 'lucide-react';
 import {
@@ -32,6 +33,7 @@ interface AgentsModalProps {
 }
 
 export const AgentsModal: React.FC<AgentsModalProps> = ({ open, onOpenChange }) => {
+  const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState('agents');
   const [agents, setAgents] = useState<Agent[]>([]);
   const [runningAgents, setRunningAgents] = useState<AgentRunWithMetrics[]>([]);
@@ -101,7 +103,7 @@ export const AgentsModal: React.FC<AgentsModalProps> = ({ open, onOpenChange }) 
       const projectPath = await open({
         directory: true,
         multiple: false,
-        title: `Select project directory for ${agent.name}`
+        title: t("agentsModal.selectProjectForAgent", { agentName: agent.name })
       });
       
       if (!projectPath) {
@@ -121,7 +123,7 @@ export const AgentsModal: React.FC<AgentsModalProps> = ({ open, onOpenChange }) 
       }));
     } catch (error) {
       console.error('Failed to run agent:', error);
-      setToast({ message: `Failed to run agent: ${agent.name}`, type: 'error' });
+      setToast({ message: t("agentsModal.runAgentFailed", { agentName: agent.name }), type: 'error' });
     }
   };
 
@@ -167,11 +169,11 @@ export const AgentsModal: React.FC<AgentsModalProps> = ({ open, onOpenChange }) 
       if (filePath) {
         const agent = await api.importAgentFromFile(filePath as string);
         loadAgents(); // Refresh list
-        setToast({ message: `Agent "${agent.name}" imported successfully`, type: "success" });
+        setToast({ message: t("agentsModal.agentImportSuccess", { agentName: agent.name }), type: "success" });
       }
     } catch (error) {
       console.error('Failed to import agent:', error);
-      setToast({ message: "Failed to import agent", type: "error" });
+      setToast({ message: t("agentsModal.importAgentFailed"), type: "error" });
     }
   };
 
@@ -220,18 +222,18 @@ export const AgentsModal: React.FC<AgentsModalProps> = ({ open, onOpenChange }) 
         <DialogHeader className="px-6 pt-6">
           <DialogTitle className="flex items-center gap-2">
             <Bot className="w-5 h-5" />
-            Agent Management
+            {t("agentsModal.title")}
           </DialogTitle>
           <DialogDescription>
-            Create new agents or manage running agent executions
+            {t("agentsModal.description")}
           </DialogDescription>
         </DialogHeader>
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="flex-1 flex flex-col">
           <TabsList className="mx-6">
-            <TabsTrigger value="agents">Available Agents</TabsTrigger>
+            <TabsTrigger value="agents">{t("agentsModal.availableAgentsTab")}</TabsTrigger>
             <TabsTrigger value="running" className="relative">
-              Running Agents
+              {t("agentsModal.runningAgentsTab")}
               {runningAgents.length > 0 && (
                 <Badge variant="secondary" className="ml-2 h-5 px-1.5">
                   {runningAgents.length}
@@ -247,24 +249,24 @@ export const AgentsModal: React.FC<AgentsModalProps> = ({ open, onOpenChange }) 
                 <div className="flex gap-2 mb-4 pt-4">
                   <Button onClick={handleCreateAgent} className="flex-1">
                     <Plus className="w-4 h-4 mr-2" />
-                    Create Agent
+                    {t("agentsModal.createAgentButton")}
                   </Button>
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                       <Button variant="outline" className="flex-1">
                         <Import className="w-4 h-4 mr-2" />
-                        Import Agent
+                        {t("agentsModal.importAgentButton")}
                         <ChevronDown className="w-4 h-4 ml-2" />
                       </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent>
                       <DropdownMenuItem onClick={handleImportFromFile}>
                         <FileJson className="w-4 h-4 mr-2" />
-                        From File
+                        {t("agentsModal.fromFile")}
                       </DropdownMenuItem>
                       <DropdownMenuItem onClick={handleImportFromGitHub}>
                         <Globe className="w-4 h-4 mr-2" />
-                        From GitHub
+                        {t("agentsModal.fromGitHub")}
                       </DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
@@ -276,16 +278,16 @@ export const AgentsModal: React.FC<AgentsModalProps> = ({ open, onOpenChange }) 
                 ) : agents.length === 0 ? (
                   <div className="flex flex-col items-center justify-center h-full text-center">
                     <Bot className="w-12 h-12 text-muted-foreground mb-4" />
-                    <p className="text-lg font-medium mb-2">No agents available</p>
+                    <p className="text-lg font-medium mb-2">{t("agentsModal.noAgentsAvailable")}</p>
                     <p className="text-sm text-muted-foreground mb-4">
-                      Create your first agent to get started
+                      {t("agentsModal.createFirstAgent")}
                     </p>
                     <Button onClick={() => {
                       onOpenChange(false);
                       window.dispatchEvent(new CustomEvent('open-create-agent-tab'));
                     }}>
                       <Plus className="w-4 h-4 mr-2" />
-                      Create Agent
+                      {t("agentsModal.createAgentButton")}
                     </Button>
                   </div>
                 ) : (
@@ -316,7 +318,7 @@ export const AgentsModal: React.FC<AgentsModalProps> = ({ open, onOpenChange }) 
                               onClick={() => handleExportAgent(agent)}
                             >
                               <Download className="w-3 h-3 mr-1" />
-                              Export
+                              {t("agentsModal.exportButton")}
                             </Button>
                             <Button
                               size="sm"
@@ -325,14 +327,14 @@ export const AgentsModal: React.FC<AgentsModalProps> = ({ open, onOpenChange }) 
                               className="text-destructive hover:text-destructive"
                             >
                               <Trash2 className="w-3 h-3 mr-1" />
-                              Delete
+                              {t("agentsModal.deleteButton")}
                             </Button>
                             <Button
                               size="sm"
                               onClick={() => handleRunAgent(agent)}
                             >
                               <Play className="w-3 h-3 mr-1" />
-                              Run
+                              {t("agentsModal.runButton")}
                             </Button>
                           </div>
                         </div>
@@ -348,9 +350,9 @@ export const AgentsModal: React.FC<AgentsModalProps> = ({ open, onOpenChange }) 
                 {runningAgents.length === 0 ? (
                   <div className="flex flex-col items-center justify-center h-full text-center">
                     <Clock className="w-12 h-12 text-muted-foreground mb-4" />
-                    <p className="text-lg font-medium mb-2">No running agents</p>
+                    <p className="text-lg font-medium mb-2">{t("agentsModal.noRunningAgents")}</p>
                     <p className="text-sm text-muted-foreground">
-                      Agent executions will appear here when started
+                      {t("agentsModal.runningAgentsHint")}
                     </p>
                   </div>
                 ) : (
@@ -376,7 +378,7 @@ export const AgentsModal: React.FC<AgentsModalProps> = ({ open, onOpenChange }) 
                                 {run.task}
                               </p>
                               <div className="flex items-center gap-4 mt-2 text-xs text-muted-foreground">
-                                <span>Started: {formatISOTimestamp(run.created_at)}</span>
+                                <span>{t("agentsModal.started")}: {formatISOTimestamp(run.created_at)}</span>
                                 <Badge variant="outline" className="text-xs">
                                   {run.model === 'opus' ? 'Claude 4 Opus' : 'Claude 4 Sonnet'}
                                 </Badge>
@@ -390,7 +392,7 @@ export const AgentsModal: React.FC<AgentsModalProps> = ({ open, onOpenChange }) 
                                 handleOpenAgentRun(run);
                               }}
                             >
-                              View
+                              {t("agentsModal.viewButton")}
                             </Button>
                           </div>
                         </motion.div>
@@ -409,9 +411,9 @@ export const AgentsModal: React.FC<AgentsModalProps> = ({ open, onOpenChange }) 
     <Dialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Delete Agent</DialogTitle>
+          <DialogTitle>{t("agentsModal.deleteDialogTitle")}</DialogTitle>
           <DialogDescription>
-            Are you sure you want to delete "{agentToDelete?.name}"? This action cannot be undone.
+            {t("agentsModal.deleteDialogConfirm", { agentName: agentToDelete?.name })}
           </DialogDescription>
         </DialogHeader>
         <div className="flex justify-end gap-3 mt-4">
@@ -422,13 +424,13 @@ export const AgentsModal: React.FC<AgentsModalProps> = ({ open, onOpenChange }) 
               setAgentToDelete(null);
             }}
           >
-            Cancel
+            {t("agentsModal.cancelButton")}
           </Button>
           <Button
             variant="destructive"
             onClick={confirmDelete}
           >
-            Delete
+            {t("agentsModal.deleteButton")}
           </Button>
         </div>
       </DialogContent>
@@ -441,7 +443,7 @@ export const AgentsModal: React.FC<AgentsModalProps> = ({ open, onOpenChange }) 
       onImportSuccess={() => {
         setShowGitHubBrowser(false);
         loadAgents(); // Refresh the agents list
-        setToast({ message: "Agent imported successfully", type: "success" });
+        setToast({ message: t("agentsModal.githubImportSuccess"), type: "success" });
       }}
     />
 
