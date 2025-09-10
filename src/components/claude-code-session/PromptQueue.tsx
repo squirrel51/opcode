@@ -4,6 +4,7 @@ import { X, Clock, Sparkles, Zap } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
+import { useTranslation } from 'react-i18next';
 
 interface QueuedPrompt {
   id: string;
@@ -22,6 +23,7 @@ export const PromptQueue: React.FC<PromptQueueProps> = React.memo(({
   onRemove,
   className
 }) => {
+  const { t } = useTranslation();
   if (queuedPrompts.length === 0) return null;
 
   return (
@@ -34,7 +36,7 @@ export const PromptQueue: React.FC<PromptQueueProps> = React.memo(({
       <div className="px-4 py-3">
         <div className="flex items-center gap-2 mb-2">
           <Clock className="h-4 w-4 text-muted-foreground" />
-          <span className="text-sm font-medium">Queued Prompts</span>
+          <span className="text-sm font-medium">{t('session.queuedPromptsSimple')}</span>
           <Badge variant="secondary" className="text-xs">
             {queuedPrompts.length}
           </Badge>

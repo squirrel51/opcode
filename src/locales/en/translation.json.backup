@@ -512,7 +512,6 @@
     "loadingHistory": "Loading session history...",
     "initializing": "Initializing Claude Code...",
     "queuedPrompts": "Queued Prompts ({{count}})",
-    "queuedPromptsSimple": "Queued Prompts",
     "expandQueue": "Expand queue",
     "collapseQueue": "Collapse queue",
     "modelOpus": "Opus",
@@ -569,9 +568,6 @@
         "all": "All Files",
         "opcodeAgent": "opcode Agent"
       }
-    },
-    "projectSelection": {
-      "selectDirectory": "Select project directory for {{agentName}}"
     },
     "createAgent": "Create Agent",
     "createCCAgent": "Create CC Agent",
@@ -903,70 +899,5 @@
     "toasts": {
       "claudeBinarySaved": "Claude binary path saved successfully"
     }
-  },
-  "messageList": {
-    "readyToStartCoding": "Ready to start coding",
-    "enterPromptToBegin": "Enter a prompt below to begin your Claude Code session",
-    "selectProjectToBegin": "Select a project folder to begin"
-  },
-  "agentExecution": {
-    "modelSelection": "Model Selection",
-    "moreCapable": "More capable",
-    "taskDescription": "Task Description",
-    "configureHooks": "Configure Hooks",
-    "readyToExecute": "Ready to Execute",
-    "running": "Running",
-    "enterTaskToRun": "Enter a task to run the agent",
-    "configureHooksDialog": "Configure hooks that run before, during, and after tool executions"
-  },
-  "mcpAddServer": {
-    "title": "Add MCP Server",
-    "subtitle": "Configure new Model Context Protocol server",
-    "stdioTab": "Standard I/O",
-    "sseTab": "SSE",
-    "serverNameRequired": "Server name is required",
-    "commandRequired": "Command is required",
-    "failedToAddServer": "Failed to add server",
-    "urlRequired": "URL is required",
-    "environmentVariables": "Environment Variables",
-    "addVariable": "Add Variable",
-    "keyPlaceholder": "Key",
-    "valuePlaceholder": "Value",
-    "serverName": "Server Name",
-    "serverNameHint": "Unique name to identify this server",
-    "command": "Command",
-    "commandHint": "Command to execute the server",
-    "argumentsOptional": "Arguments (optional)",
-    "argumentsHint": "Space-separated command arguments",
-    "scope": "Scope",
-    "scopeLocal": "Local (this project only)",
-    "scopeProject": "项目 (通过 .mcp.json 共享)",
-    "scopeUser": "用户 (所有项目)",
-    "addingServer": "Add Server",
-    "addStdioServer": "Add Server",
-    "url": "URL",
-    "urlHint": "SSE 端点 URL",
-    "addSseServer": "Add Server",
-    "exampleCommands": "示例命令",
-    "examplePostgres": "• Postgres: /path/to/postgres-mcp-server --connection-string \"postgresql://...\"",
-    "exampleWeatherApi": "• Weather API: /usr/local/bin/weather-cli --api-key ABC123",
-    "exampleSseServer": "• SSE Server: https://api.example.com/sse-endpoint"
-  },
-  "tabManager": {
-    "unsavedChanges": "Unsaved changes",
-    "scrollLeft": "Scroll tabs left",
-    "scrollRight": "Scroll tabs right",
-    "newProject": "New project (Ctrl+T)",
-    "maximumTabs": "Maximum tabs reached",
-    "closeTab": "Close {{title}}"
-  },
-  "previewPromptDialog": {
-    "title": "Open Preview?",
-    "description": "Detected URL in terminal output. Would you like to open it in the preview pane?",
-    "localServer": "Local Development Server",
-    "externalUrl": "External URL",
-    "hint": "Preview will open in a split view on the right side of the screen.",
-    "cancelButton": "Cancel",
-    "openPreviewButton": "Open Preview"
   }
 }

@@ -19,6 +19,7 @@ import {
 import type { SlashCommand } from "@/lib/api";
 import { cn } from "@/lib/utils";
 import { useTrackEvent, useFeatureAdoptionTracking } from "@/hooks";
+import { useTranslation } from "react-i18next";
 
 interface SlashCommandPickerProps {
   /**
@@ -86,6 +87,8 @@ export const SlashCommandPicker: React.FC<SlashCommandPickerProps> = ({
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [searchQuery, setSearchQuery] = useState(initialQuery);
   const [activeTab, setActiveTab] = useState<string>("custom");
+  
+  const { t } = useTranslation();
   
   const commandListRef = useRef<HTMLDivElement>(null);
   
@@ -241,11 +244,11 @@ export const SlashCommandPicker: React.FC<SlashCommandPickerProps> = ({
   const groupedCommands = filteredCommands.reduce((acc, cmd) => {
     let key: string;
     if (cmd.scope === "user") {
-      key = cmd.namespace ? `User Commands: ${cmd.namespace}` : "User Commands";
+      key = cmd.namespace ? t('slashCommandPicker.userCommandsWithNamespace', { namespace: cmd.namespace }) : t('slashCommandPicker.userCommands');
     } else if (cmd.scope === "project") {
-      key = cmd.namespace ? `Project Commands: ${cmd.namespace}` : "Project Commands";
+      key = cmd.namespace ? t('slashCommandPicker.projectCommandsWithNamespace', { namespace: cmd.namespace }) : t('slashCommandPicker.projectCommands');
     } else {
-      key = cmd.namespace || "Commands";
+      key = cmd.namespace || t('slashCommandPicker.commands');
     }
     
     if (!acc[key]) {
@@ -278,7 +281,7 @@ export const SlashCommandPicker: React.FC<SlashCommandPickerProps> = ({
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Command className="h-4 w-4 text-muted-foreground" />
-            <span className="text-sm font-medium">Slash Commands</span>
+            <span className="text-sm font-medium">{t('slashCommandPicker.title')}</span>
             {searchQuery && (
               <span className="text-xs text-muted-foreground">
                 Searching: "{searchQuery}"
@@ -299,8 +302,8 @@ export const SlashCommandPicker: React.FC<SlashCommandPickerProps> = ({
         <div className="mt-3">
           <Tabs value={activeTab} onValueChange={setActiveTab}>
             <TabsList className="grid w-full grid-cols-2">
-              <TabsTrigger value="default">Default</TabsTrigger>
-              <TabsTrigger value="custom">Custom</TabsTrigger>
+              <TabsTrigger value="default">{t('slashCommandPicker.tabs.default')}</TabsTrigger>
+              <TabsTrigger value="custom">{t('slashCommandPicker.tabs.custom')}</TabsTrigger>
             </TabsList>
           </Tabs>
         </div>
@@ -310,7 +313,7 @@ export const SlashCommandPicker: React.FC<SlashCommandPickerProps> = ({
       <div className="flex-1 overflow-y-auto relative">
         {isLoading && (
           <div className="flex items-center justify-center h-full">
-            <span className="text-sm text-muted-foreground">Loading commands...</span>
+            <span className="text-sm text-muted-foreground">{t('slashCommandPicker.loading')}</span>
           </div>
         )}
 

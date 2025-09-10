@@ -17,6 +17,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Popover } from "@/components/ui/popover";
+import { useTranslation } from "react-i18next";
 import {
   Dialog,
   DialogContent,
@@ -88,6 +89,7 @@ export const AgentExecution: React.FC<AgentExecutionProps> = ({
   onBack,
   className,
 }) => {
+  const { t } = useTranslation();
   const [projectPath] = useState(initialProjectPath || "");
   const [task, setTask] = useState(agent.default_task || "");
   const [model, setModel] = useState(agent.model || "sonnet");
@@ -619,7 +621,7 @@ export const AgentExecution: React.FC<AgentExecutionProps> = ({
 
             {/* Model Selection */}
             <div className="space-y-3">
-              <Label className="text-caption text-muted-foreground">Model Selection</Label>
+              <Label className="text-caption text-muted-foreground">{t('agentExecution.modelSelection')}</Label>
               <div className="flex gap-2">
                 <motion.button
                   type="button"
@@ -676,7 +678,7 @@ export const AgentExecution: React.FC<AgentExecutionProps> = ({
                     </div>
                     <div className="text-left">
                       <div className="text-body-small font-medium">Claude 4 Opus</div>
-                      <div className="text-caption text-muted-foreground">More capable</div>
+                      <div className="text-caption text-muted-foreground">{t('agentExecution.moreCapable')}</div>
                     </div>
                   </div>
                 </motion.button>
@@ -686,7 +688,7 @@ export const AgentExecution: React.FC<AgentExecutionProps> = ({
             {/* Task Input */}
             <div className="space-y-3">
               <div className="flex items-center justify-between">
-                <Label className="text-caption text-muted-foreground">Task Description</Label>
+                <Label className="text-caption text-muted-foreground">{t('agentExecution.taskDescription')}</Label>
                 {projectPath && (
                   <Button
                     variant="ghost"
@@ -696,7 +698,7 @@ export const AgentExecution: React.FC<AgentExecutionProps> = ({
                     className="h-8 -mr-2"
                   >
                     <Settings2 className="h-3.5 w-3.5 mr-1.5" />
-                    <span className="text-caption">Configure Hooks</span>
+                    <span className="text-caption">{t('agentExecution.configureHooks')}</span>
                   </Button>
                 )}
               </div>
@@ -768,9 +770,9 @@ export const AgentExecution: React.FC<AgentExecutionProps> = ({
               {messages.length === 0 && !isRunning && (
                 <div className="flex flex-col items-center justify-center h-full text-center">
                   <Terminal className="h-16 w-16 text-muted-foreground mb-4" />
-                  <h3 className="text-lg font-medium mb-2">Ready to Execute</h3>
+                  <h3 className="text-lg font-medium mb-2">{t('agentExecution.readyToExecute')}</h3>
                   <p className="text-sm text-muted-foreground">
-                    Enter a task to run the agent
+                    {t('agentExecution.enterTaskToRun')}
                   </p>
                 </div>
               )}
@@ -836,7 +838,7 @@ export const AgentExecution: React.FC<AgentExecutionProps> = ({
               {isRunning && (
                 <div className="flex items-center gap-1">
                   <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                  <span className="text-xs text-green-600 font-medium">Running</span>
+                  <span className="text-xs text-green-600 font-medium">{t('agentExecution.running')}</span>
                 </div>
               )}
             </div>
@@ -909,9 +911,9 @@ export const AgentExecution: React.FC<AgentExecutionProps> = ({
               {messages.length === 0 && !isRunning && (
                 <div className="flex flex-col items-center justify-center h-full text-center">
                   <Terminal className="h-16 w-16 text-muted-foreground mb-4" />
-                  <h3 className="text-lg font-medium mb-2">Ready to Execute</h3>
+                  <h3 className="text-lg font-medium mb-2">{t('agentExecution.readyToExecute')}</h3>
                   <p className="text-sm text-muted-foreground">
-                    Enter a task to run the agent
+                    {t('agentExecution.enterTaskToRun')}
                   </p>
                 </div>
               )}
@@ -965,9 +967,9 @@ export const AgentExecution: React.FC<AgentExecutionProps> = ({
       >
         <DialogContent className="max-w-4xl max-h-[85vh] overflow-hidden flex flex-col gap-0 p-0">
           <div className="px-6 py-4 border-b border-border">
-            <DialogTitle className="text-heading-2">Configure Hooks</DialogTitle>
+            <DialogTitle className="text-heading-2">{t('agentExecution.configureHooks')}</DialogTitle>
             <DialogDescription className="mt-1 text-body-small text-muted-foreground">
-              Configure hooks that run before, during, and after tool executions
+              {t('agentExecution.configureHooksDialog')}
             </DialogDescription>
           </div>
           

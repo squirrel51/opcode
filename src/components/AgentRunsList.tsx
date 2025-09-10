@@ -9,6 +9,7 @@ import { formatISOTimestamp } from "@/lib/date-utils";
 import type { AgentRunWithMetrics } from "@/lib/api";
 import { AGENT_ICONS } from "./CCAgents";
 import { useTabState } from "@/hooks/useTabState";
+import { useTranslation } from "react-i18next";
 
 interface AgentRunsListProps {
   /**
@@ -41,6 +42,7 @@ export const AgentRunsList: React.FC<AgentRunsListProps> = ({
   onRunClick,
   className,
 }) => {
+  const { t } = useTranslation();
   const [currentPage, setCurrentPage] = useState(1);
   const { createAgentTab } = useTabState();
   
@@ -61,12 +63,12 @@ export const AgentRunsList: React.FC<AgentRunsListProps> = ({
   };
   
   const formatDuration = (ms?: number) => {
-    if (!ms) return "N/A";
+    if (!ms) return t('agentRunsList.notAvailable');
     const seconds = Math.floor(ms / 1000);
-    if (seconds < 60) return `${seconds}s`;
+    if (seconds < 60) return t('agentRunsList.secondsShort', { count: seconds });
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = seconds % 60;
-    return `${minutes}m ${remainingSeconds}s`;
+    return t('agentRunsList.minutesSecondsShort', { minutes, seconds: remainingSeconds });
   };
   
   const formatTokens = (tokens?: number) => {
@@ -91,7 +93,7 @@ export const AgentRunsList: React.FC<AgentRunsListProps> = ({
     return (
       <div className={cn("text-center py-8 text-muted-foreground", className)}>
         <Play className="h-8 w-8 mx-auto mb-2 opacity-50" />
-        <p className="text-sm">No execution history yet</p>
+        <p className="text-sm">{t('agentRunsList.noHistory')}</p>
       </div>
     );
   }
@@ -133,7 +135,7 @@ export const AgentRunsList: React.FC<AgentRunsListProps> = ({
                         {run.status === "running" && (
                           <div className="flex items-center gap-1">
                             <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                            <span className="text-xs text-green-600 font-medium">Running</span>
+                            <span className="text-xs text-green-600 font-medium">{t('agentRunsList.statusRunning')}</span>
                           </div>
                         )}
                       </div>
@@ -171,10 +173,10 @@ export const AgentRunsList: React.FC<AgentRunsListProps> = ({
                         }
                         className="text-xs"
                       >
-                        {run.status === "completed" ? "Completed" :
-                         run.status === "running" ? "Running" :
-                         run.status === "failed" ? "Failed" :
-                         "Pending"}
+                        {run.status === "completed" ? t('agentRunsList.statusCompleted') :
+                         run.status === "running" ? t('agentRunsList.statusRunning') :
+                         run.status === "failed" ? t('agentRunsList.statusFailed') :
+                         t('agentRunsList.statusPending')}
                       </Badge>
                     </div>
                   </div>

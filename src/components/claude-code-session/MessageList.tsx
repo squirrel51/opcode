@@ -4,6 +4,7 @@ import { useVirtualizer } from '@tanstack/react-virtual';
 import { StreamMessage } from '../StreamMessage';
 import { Terminal } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { useTranslation } from 'react-i18next';
 import type { ClaudeStreamMessage } from '../AgentExecution';
 
 interface MessageListProps {
@@ -21,6 +22,7 @@ export const MessageList: React.FC<MessageListProps> = React.memo(({
   onLinkDetected,
   className
 }) => {
+  const { t } = useTranslation();
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const shouldAutoScrollRef = useRef(true);
   const userHasScrolledRef = useRef(false);
@@ -78,11 +80,11 @@ export const MessageList: React.FC<MessageListProps> = React.memo(({
             <Terminal className="h-8 w-8 text-primary" />
           </div>
           <div>
-            <h3 className="text-lg font-semibold mb-2">Ready to start coding</h3>
+            <h3 className="text-lg font-semibold mb-2">{t('messageList.readyToStartCoding')}</h3>
             <p className="text-sm text-muted-foreground">
               {projectPath 
-                ? "Enter a prompt below to begin your Claude Code session"
-                : "Select a project folder to begin"}
+                ? t('messageList.enterPromptToBegin')
+                : t('messageList.selectProjectToBegin')}
             </p>
           </div>
         </motion.div>

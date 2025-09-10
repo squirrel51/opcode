@@ -40,6 +40,7 @@ import { AgentExecution } from "./AgentExecution";
 import { AgentRunsList } from "./AgentRunsList";
 import { GitHubAgentBrowser } from "./GitHubAgentBrowser";
 import { ICON_MAP } from "./IconPicker";
+import { useTranslation } from "react-i18next";
 
 interface CCAgentsProps {
   /**
@@ -64,6 +65,7 @@ export type AgentIconName = keyof typeof AGENT_ICONS;
  * <CCAgents onBack={() => setView('home')} />
  */
 export const CCAgents: React.FC<CCAgentsProps> = ({ onBack, className }) => {
+  const { t } = useTranslation();
   const [agents, setAgents] = useState<Agent[]>([]);
   const [runs, setRuns] = useState<AgentRunWithMetrics[]>([]);
   const [loading, setLoading] = useState(true);
@@ -94,8 +96,8 @@ export const CCAgents: React.FC<CCAgentsProps> = ({ onBack, className }) => {
       setAgents(agentsList);
     } catch (err) {
       console.error("Failed to load agents:", err);
-      setError("Failed to load agents");
-      setToast({ message: "Failed to load agents", type: "error" });
+      setError(t('agents.toast.failedToLoad'));
+      setToast({ message: t('agents.toast.failedToLoad'), type: "error" });
     } finally {
       setLoading(false);
     }
@@ -132,12 +134,12 @@ export const CCAgents: React.FC<CCAgentsProps> = ({ onBack, className }) => {
     try {
       setIsDeleting(true);
       await api.deleteAgent(agentToDelete.id);
-      setToast({ message: "Agent deleted successfully", type: "success" });
+      setToast({ message: t('agents.toast.deleted', { agentName: agentToDelete.name }), type: "success" });
       await loadAgents();
       await loadRuns(); // Reload runs as they might be affected
     } catch (err) {
       console.error("Failed to delete agent:", err);
-      setToast({ message: "Failed to delete agent", type: "error" });
+      setToast({ message: t('agents.toast.failedToDelete', { agentName: agentToDelete.name }), type: "error" });
     } finally {
       setIsDeleting(false);
       setShowDeleteDialog(false);
@@ -166,13 +168,13 @@ export const CCAgents: React.FC<CCAgentsProps> = ({ onBack, className }) => {
   const handleAgentCreated = async () => {
     setView("list");
     await loadAgents();
-    setToast({ message: "Agent created successfully", type: "success" });
+    setToast({ message: t('agents.toast.createdSuccessfully'), type: "success" });
   };
 
   const handleAgentUpdated = async () => {
     setView("list");
     await loadAgents();
-    setToast({ message: "Agent updated successfully", type: "success" });
+    setToast({ message: t('agents.toast.updatedSuccessfully'), type: "success" });
   };
 
   // const handleRunClick = (run: AgentRunWithMetrics) => {
@@ -209,10 +211,10 @@ export const CCAgents: React.FC<CCAgentsProps> = ({ onBack, className }) => {
         filePath 
       });
       
-      setToast({ message: `Agent "${agent.name}" exported successfully`, type: "success" });
+      setToast({ message: t('agents.toast.exported', { agentName: agent.name }), type: "success" });
     } catch (err) {
       console.error("Failed to export agent:", err);
-      setToast({ message: "Failed to export agent", type: "error" });
+      setToast({ message: t('agents.toast.failedToExport'), type: "error" });
     }
   };
 
@@ -235,11 +237,11 @@ export const CCAgents: React.FC<CCAgentsProps> = ({ onBack, className }) => {
       // Import the agent from the selected file
       await api.importAgentFromFile(filePath as string);
       
-      setToast({ message: "Agent imported successfully", type: "success" });
+      setToast({ message: t('agents.toast.importedSuccessfully'), type: "success" });
       await loadAgents();
     } catch (err) {
       console.error("Failed to import agent:", err);
-      const errorMessage = err instanceof Error ? err.message : "Failed to import agent";
+      const errorMessage = err instanceof Error ? err.message : t('agents.toast.failedToImport');
       setToast({ message: errorMessage, type: "error" });
     }
   };
@@ -419,7 +421,7 @@ export const CCAgents: React.FC<CCAgentsProps> = ({ onBack, className }) => {
                                   variant="ghost"
                                   onClick={() => handleExecuteAgent(agent)}
                                   className="flex items-center gap-1"
-                                  title="Execute agent"
+                                  title={t('agents.agentCard.executeAgent')}
                                 >
                                   <Play className="h-3 w-3" />
                                   Execute
@@ -429,7 +431,7 @@ export const CCAgents: React.FC<CCAgentsProps> = ({ onBack, className }) => {
                                   variant="ghost"
                                   onClick={() => handleEditAgent(agent)}
                                   className="flex items-center gap-1"
-                                  title="Edit agent"
+                                  title={t('agents.agentCard.editAgent')}
                                 >
                                   <Edit className="h-3 w-3" />
                                   Edit
@@ -439,7 +441,7 @@ export const CCAgents: React.FC<CCAgentsProps> = ({ onBack, className }) => {
                                   variant="ghost"
                                   onClick={() => handleExportAgent(agent)}
                                   className="flex items-center gap-1"
-                                  title="Export agent to .opcode.json"
+                                  title={t('agents.agentCard.exportAgent')}
                                 >
                                   <Upload className="h-3 w-3" />
                                   Export
@@ -449,7 +451,7 @@ export const CCAgents: React.FC<CCAgentsProps> = ({ onBack, className }) => {
                                   variant="ghost"
                                   onClick={() => handleDeleteAgent(agent)}
                                   className="flex items-center gap-1 text-destructive hover:text-destructive"
-                                  title="Delete agent"
+                                  title={t('agents.agentCard.deleteAgent')}
                                 >
                                   <Trash2 className="h-3 w-3" />
                                   Delete
@@ -530,7 +532,7 @@ export const CCAgents: React.FC<CCAgentsProps> = ({ onBack, className }) => {
         onImportSuccess={async () => {
           setShowGitHubBrowser(false);
           await loadAgents();
-          setToast({ message: "Agent imported successfully from GitHub", type: "success" });
+          setToast({ message: t('agents.toast.importedFromGitHub'), type: "success" });
         }}
       />
 

@@ -503,21 +503,6 @@
     "fileBug": "提交 Bug",
     "strategicProject": "Asterisk 的一个战略项目"
   },
-  "messageList": {
-    "readyToStartCoding": "准备开始编程",
-    "enterPromptToBegin": "在下方输入提示以开始您的 Claude Code 会话",
-    "selectProjectToBegin": "选择一个项目文件夹以开始"
-  },
-  "agentExecution": {
-    "modelSelection": "模型选择",
-    "moreCapable": "功能更强大",
-    "taskDescription": "任务描述",
-    "configureHooks": "配置钩子",
-    "readyToExecute": "准备执行",
-    "running": "运行中",
-    "enterTaskToRun": "输入任务以运行代理",
-    "configureHooksDialog": "配置在工具执行前、中、后运行的钩子"
-  },
   "mcpAddServer": {
     "title": "添加 MCP 服务器",
     "subtitle": "配置新的模型上下文协议服务器",
@@ -550,14 +535,6 @@
     "examplePostgres": "• Postgres: /path/to/postgres-mcp-server --connection-string \"postgresql://...\"",
     "exampleWeatherApi": "• Weather API: /usr/local/bin/weather-cli --api-key ABC123",
     "exampleSseServer": "• SSE Server: https://api.example.com/sse-endpoint"
-  },
-  "tabManager": {
-    "unsavedChanges": "未保存的更改",
-    "scrollLeft": "向左滚动标签页",
-    "scrollRight": "向右滚动标签页",
-    "newProject": "新建项目 (Ctrl+T)",
-    "maximumTabs": "已达到最大标签页数量",
-    "closeTab": "关闭 {{title}}"
   },
   "previewPromptDialog": {
     "title": "打开预览？",
@@ -625,6 +602,33 @@
     "sendTooltip": "发送消息 (Enter)",
     "thinkingTooltip": "思考：{{mode}}"
   },
+  "tabManager": {
+    "unsavedChanges": "未保存的更改",
+    "closeTab": "关闭 {{tabTitle}}",
+    "scrollLeft": "向左滚动标签页",
+    "newProject": "新项目 (Ctrl+T)",
+    "maxTabs": "已达到最大标签页数",
+    "scrollRight": "向右滚动标签页",
+    "failedToLoadProjects": "加载项目失败。请确保 ~/.claude 目录存在。",
+    "failedToLoadSessions": "加载此项目的会话失败。",
+    "selectProjectFolder": "选择项目文件夹",
+    "failedToOpenFolderPicker": "打开文件夹选择器失败",
+    "projects": "项目",
+    "newSession": "新建会话",
+    "backToProjects": "返回项目",
+    "sessionCount_one": "{{count}} 个会话",
+    "sessionCount_other": "{{count}} 个会话",
+    "newSessionButton": "新建会话",
+    "noAgentRunId": "未指定代理运行 ID",
+    "noClaudeFileId": "未指定 Claude 文件 ID",
+    "claudeFileEditorNotImplemented": "标签页中的 Claude 文件编辑器尚未实现",
+    "noAgentData": "未指定代理数据",
+    "importAgentComingSoon": "导入代理功能即将推出...",
+    "unknownTabType": "未知的标签页类型：{{tabType}}",
+    "noProjectsOpen": "没有打开的项目",
+    "clickToStart": "点击开始新项目",
+    "newProjectButton": "新建项目"
+  },
   "titlebar": {
     "close": "关闭",
     "minimize": "最小化",
@@ -665,7 +669,6 @@
     "loadingHistory": "正在加载会话历史...",
     "initializing": "正在初始化 Claude Code...",
     "queuedPrompts": "排队提示 ({{count}})",
-    "queuedPromptsSimple": "排队提示",
     "expandQueue": "展开队列",
     "collapseQueue": "收起队列",
     "modelOpus": "Opus",
@@ -722,9 +725,6 @@
         "all": "所有文件",
         "opcodeAgent": "opcode 代理"
       }
-    },
-    "projectSelection": {
-      "selectDirectory": "为 {{agentName}} 选择项目目录"
     },
     "createAgent": "创建代理",
     "createCCAgent": "创建 CC 代理",
@@ -830,12 +830,54 @@
     "addServerTab": "添加服务器",
     "importExportTab": "导入/导出"
   },
+  "mcpAddServer": {
+    "title": "添加 MCP 服务器",
+    "subtitle": "配置新的模型上下文协议服务器",
+    "stdioTab": "标准输入输出",
+    "sseTab": "SSE",
+    "serverNameRequired": "服务器名称为必填项",
+    "commandRequired": "命令为必填项",
+    "failedToAddServer": "添加服务器失败",
+    "urlRequired": "URL 为必填项",
+    "environmentVariables": "环境变量",
+    "addVariable": "添加变量",
+    "keyPlaceholder": "键",
+    "valuePlaceholder": "值",
+    "serverName": "服务器名称",
+    "serverNameHint": "用于标识此服务器的唯一名称",
+    "command": "命令",
+    "commandHint": "执行服务器的命令",
+    "argumentsOptional": "参数 (可选)",
+    "argumentsHint": "空格分隔的命令参数",
+    "scope": "范围",
+    "scopeLocal": "本地 (仅此项目)",
+    "scopeProject": "项目 (通过 .mcp.json 共享)",
+    "scopeUser": "用户 (所有项目)",
+    "addingServer": "正在添加服务器...",
+    "addStdioServer": "添加标准输入输出服务器",
+    "url": "URL",
+    "urlHint": "SSE 端点 URL",
+    "addSseServer": "添加 SSE 服务器",
+    "exampleCommands": "示例命令",
+    "examplePostgres": "• Postgres: /path/to/postgres-mcp-server --connection-string \"postgresql://...\"",
+    "exampleWeatherApi": "• Weather API: /usr/local/bin/weather-cli --api-key ABC123",
+    "exampleSseServer": "• SSE Server: https://api.example.com/sse-endpoint"
+  },
+  "previewPromptDialog": {
+    "title": "打开预览？",
+    "description": "在终端输出中检测到 URL。您想在预览窗格中打开它吗？",
+    "localServer": "本地开发服务器",
+    "externalUrl": "外部 URL",
+    "hint": "预览将在屏幕右侧的拆分视图中打开。",
+    "cancelButton": "取消",
+    "openPreviewButton": "打开预览"
+  },
   "slashCommandPicker": {
     "title": "斜杠命令",
     "loading": "加载命令中...",
     "userCommands": "用户命令",
     "userCommandsWithNamespace": "用户命令：{{namespace}}",
-    "projectCommands": "项目命令",
+    "projectCommands": "项目命令", 
     "projectCommandsWithNamespace": "项目命令：{{namespace}}",
     "commands": "命令",
     "tabs": {
